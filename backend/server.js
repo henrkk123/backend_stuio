@@ -10,6 +10,7 @@ import adminRoutes from './routes/adminRoutes.js';
 import assistantRoutes from './routes/assistantRoutes.js';
 import llmTestRoutes from './routes/llmTestRoutes.js';
 import authRoutes from './routes/authRoutes.js';
+import { initDb } from './utils/db.js';
 
 dotenv.config();
 
@@ -32,6 +33,16 @@ app.get('/health', (_req, res) => {
   res.json({ ok: true });
 });
 
-app.listen(PORT, () => {
-  console.log(`Henriktron backend running on port ${PORT}`);
-});
+initDb()
+  .then(() => {
+    app.listen(PORT, () => {
+      console.log(`Henriktron backend running on port ${PORT}`);
+    });
+  })
+  .catch((err) => {
+    console.error('DB init failed:', err);
+    // Trotzdem starten, falls DB optional ist
+    app.listen(PORT, () => {
+      console.log(`Henriktron backend running on port ${PORT} (DB init failed)`);
+    });
+  });

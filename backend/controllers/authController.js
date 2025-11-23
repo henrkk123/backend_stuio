@@ -1,5 +1,5 @@
 import { sign } from '../utils/jwt.js';
-import { loadUsers, saveUsers, hashPassword, verifyPassword } from '../utils/userStore.js';
+import { createUser, verifyUser, findUserByEmail } from '../utils/userRepo.js';
 
 const AUTH_SECRET = process.env.AUTH_SECRET || 'change-me-secret';
 
@@ -13,41 +13,37 @@ function createToken(user) {
 }
 
 export function signup(req, res) {
-  try {
-    const { email = '', password = '' } = req.body || {};
-    const normalized = email.trim().toLowerCase();
-    if (!normalized || !password || password.length < 6) {
-      return res.status(400).json({ error: 'E-Mail und Passwort (min. 6 Zeichen) erforderlich.' });
+  (async () => {
+    try {
+      const { email = '', password = '' } = req.body || {};
+      if (!process.env.DATABASE_URL) return res.status(500).json({ error: 'DB nicht konfiguriert.' });
+      if (!email || !password || password.length < 6) {
+        return res.status(400).json({ error: 'E-Mail und Passwort (min. 6 Zeichen) erforderlich.' });
+      }
+      const existing = await findUserByEmail(email);
+      if (existing) return res.status(409).json({ error: 'E-Mail bereits registriert.' });
+      const user = await createUser(email, password);
+      const token = createToken({ id: user.id, email: user.email });
+      res.json({ ok: true, token, user: { email: user.email } });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: 'Signup fehlgeschlagen.' });
     }
-    const users = loadUsers();
-    if (users.find((u) => u.email === normalized)) {
-      return res.status(409).json({ error: 'E-Mail bereits registriert.' });
-    }
-    const { salt, hash } = hashPassword(password);
-    const user = { id: `user_${Date.now()}`, email: normalized, salt, hash, createdAt: new Date().toISOString() };
-    users.push(user);
-    saveUsers(users);
-    const token = createToken(user);
-    res.json({ ok: true, token, user: { email: user.email } });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'Signup fehlgeschlagen.' });
-  }
+  })();
 }
 
 export function login(req, res) {
-  try {
-    const { email = '', password = '' } = req.body || {};
-    const normalized = email.trim().toLowerCase();
-    const users = loadUsers();
-    const user = users.find((u) => u.email === normalized);
-    if (!user || !verifyPassword(password, user)) {
-      return res.status(401).json({ error: 'Falsche Zugangsdaten.' });
+  (async () => {
+    try {
+      const { email = '', password = '' } = req.body || {};
+      if (!process.env.DATABASE_URL) return res.status(500).json({ error: 'DB nicht konfiguriert.' });
+      const user = await verifyUser(email, password);
+      if (!user) return res.status(401).json({ error: 'Falsche Zugangsdaten.' });
+      const token = createToken(user);
+      res.json({ ok: true, token, user: { email: user.email } });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: 'Login fehlgeschlagen.' });
     }
-    const token = createToken(user);
-    res.json({ ok: true, token, user: { email: user.email } });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'Login fehlgeschlagen.' });
-  }
+  })();
 }

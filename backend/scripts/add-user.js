@@ -1,4 +1,5 @@
-import { loadUsers, saveUsers, hashPassword } from '../utils/userStore.js';
+import { initDb } from '../utils/db.js';
+import { createUser } from '../utils/userRepo.js';
 
 const args = process.argv.slice(2);
 const [emailArg, passwordArg] = args;
@@ -16,15 +17,14 @@ if (!email || !password || password.length < 6) {
   process.exit(1);
 }
 
-const users = loadUsers();
-if (users.find((u) => u.email === email)) {
-  console.error('User already exists:', email);
-  process.exit(1);
-}
-
-const { salt, hash } = hashPassword(password);
-const user = { id: `user_${Date.now()}`, email, salt, hash, createdAt: new Date().toISOString() };
-users.push(user);
-saveUsers(users);
-
-console.log('User created:', email);
+(async () => {
+  try {
+    await initDb();
+    await createUser(email, password);
+    console.log('User created:', email);
+    process.exit(0);
+  } catch (err) {
+    console.error('Failed to create user:', err.message || err);
+    process.exit(1);
+  }
+})();
