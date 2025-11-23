@@ -2,6 +2,8 @@ const PROVIDER = (process.env.LLM_PROVIDER || 'openai').toLowerCase();
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 const GROQ_API_KEY = process.env.GROQ_API_KEY;
 const TOGETHER_API_KEY = process.env.TOGETHER_API_KEY;
+const GROQ_MODEL = 'llama-3.1-8b-instant';
+const GROQ_TEST_MODEL = 'llama-3.1-8b-instant';
 
 function buildSystemPrompt(config) {
   const name = config?.identity?.botName || 'Henriktron Assistant';
@@ -68,7 +70,7 @@ async function callChatModel(systemPrompt, userContent, config, { maxTokens = 25
 
   if (PROVIDER === 'groq' && (GROQ_API_KEY || llmKey)) {
     const payload = {
-      model: 'llama-3.1-70b-versatile',
+      model: GROQ_MODEL,
       messages,
       max_tokens: maxTokens
     };
@@ -156,7 +158,7 @@ async function callTestModel(provider, apiKey, systemPrompt, userContent, { maxT
     model = 'meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo';
   } else {
     url = 'https://api.groq.com/openai/v1/chat/completions';
-    model = 'llama-3.1-70b-versatile';
+    model = GROQ_TEST_MODEL;
   }
 
   const resp = await fetch(url, {

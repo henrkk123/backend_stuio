@@ -1,7 +1,7 @@
 import { initTestMode } from './src/test-mode.js';
 
 const API_BASE =
-  localStorage.getItem('henriktron_admin_api_base') || 'https://henriktronstudio.pages.dev/api';
+  localStorage.getItem('henriktron_admin_api_base') || 'https://backend-studio-kv67.onrender.com/api';
 const CONFIG_ID = 'default';
 
 let adminToken = sessionStorage.getItem('henriktron_admin_token') || '';
@@ -402,8 +402,9 @@ function showLoginOverlay(message) {
   const overlay = document.getElementById('loginOverlay');
   const errorEl = document.getElementById('loginError');
   if (!overlay) return;
-  overlay.classList.remove('hidden');
-  if (errorEl) errorEl.textContent = message || '';
+  // Login overlay aktuell deaktiviert – sofort verstecken.
+  overlay.classList.add('hidden');
+  if (errorEl) errorEl.textContent = '';
 }
 
 function hideLoginOverlay() {
@@ -415,16 +416,9 @@ function hideLoginOverlay() {
 }
 
 async function performLogin(token) {
-  const res = await fetch(`${API_BASE}/api/admin/login`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ token })
-  });
-  if (!res.ok) {
-    throw new Error('Invalid admin token');
-  }
-  adminToken = token;
-  sessionStorage.setItem('henriktron_admin_token', token);
+  // Temporär kein Login-Call – offene Nutzung zum Testen.
+  adminToken = '';
+  sessionStorage.removeItem('henriktron_admin_token');
 }
 
 async function loadConfig() {
@@ -451,20 +445,13 @@ async function saveConfig() {
       headers: authHeaders({ 'Content-Type': 'application/json' }),
       body: JSON.stringify(cfg)
     });
-    if (res.status === 401) throw new Error('unauthorized');
     if (!res.ok) throw new Error('Speichern fehlgeschlagen');
     const data = await res.json();
     currentConfig = data.config || cfg;
     showToast('Änderungen gespeichert', 'success');
   } catch (err) {
-    if (err.message === 'unauthorized') {
-      sessionStorage.removeItem('henriktron_admin_token');
-      adminToken = '';
-      showLoginOverlay('Token ungültig. Bitte erneut einloggen.');
-    } else {
-      console.error(err);
-      showToast('Konnte Konfiguration nicht speichern.', 'error');
-    }
+    console.error(err);
+    showToast('Konnte Konfiguration nicht speichern.', 'error');
   }
 }
 
@@ -473,7 +460,6 @@ async function generateSnippet() {
     const res = await fetch(`${API_BASE}/api/export-snippet/${CONFIG_ID}`, {
       headers: authHeaders()
     });
-    if (res.status === 401) throw new Error('unauthorized');
     if (!res.ok) throw new Error('Export fehlgeschlagen');
     const text = await res.text();
     const el = document.getElementById('snippet');
@@ -482,14 +468,8 @@ async function generateSnippet() {
     }
     showToast('Einbau-Code aktualisiert', 'success');
   } catch (err) {
-    if (err.message === 'unauthorized') {
-      sessionStorage.removeItem('henriktron_admin_token');
-      adminToken = '';
-      showLoginOverlay('Token ungültig. Bitte erneut einloggen.');
-    } else {
-      console.error(err);
-      showToast('Snippet konnte nicht generiert werden.', 'error');
-    }
+    console.error(err);
+    showToast('Snippet konnte nicht generiert werden.', 'error');
   }
 }
 
@@ -498,7 +478,6 @@ async function downloadZip() {
     const res = await fetch(`${API_BASE}/api/export-zip/${CONFIG_ID}`, {
       headers: authHeaders()
     });
-    if (res.status === 401) throw new Error('unauthorized');
     if (!res.ok) throw new Error('ZIP-Export fehlgeschlagen');
     const blob = await res.blob();
     const url = URL.createObjectURL(blob);
@@ -511,14 +490,8 @@ async function downloadZip() {
     URL.revokeObjectURL(url);
     showToast('ZIP-Export gestartet', 'success');
   } catch (err) {
-    if (err.message === 'unauthorized') {
-      sessionStorage.removeItem('henriktron_admin_token');
-      adminToken = '';
-      showLoginOverlay('Token ungültig. Bitte erneut einloggen.');
-    } else {
-      console.error(err);
-      showToast('ZIP-Export fehlgeschlagen.', 'error');
-    }
+    console.error(err);
+    showToast('ZIP-Export fehlgeschlagen.', 'error');
   }
 }
 
@@ -856,19 +829,14 @@ function bindLoginUI() {
 
   if (submitBtn) {
     submitBtn.addEventListener('click', async () => {
-      const token = input?.value?.trim() || '';
-      if (!token) {
-        showLoginOverlay('Bitte Admin-Token eingeben.');
-        return;
-      }
       try {
-        await performLogin(token);
+        await performLogin('');
         hideLoginOverlay();
         await loadConfig();
         restoreActiveTab();
       } catch (err) {
         console.error(err);
-        showLoginOverlay('Admin-Token ist ungültig.');
+        showLoginOverlay('Login fehlgeschlagen.');
       }
     });
   }
@@ -900,18 +868,12 @@ async function bootstrap() {
   );
   applyStoredTheme();
 
-  if (adminToken) {
-    try {
-      await loadConfig();
-      restoreActiveTab();
-      hideLoginOverlay();
-    } catch (err) {
-      console.error(err);
-      sessionStorage.removeItem('henriktron_admin_token');
-      adminToken = '';
-      showLoginOverlay('Bitte Admin-Token erneut eingeben.');
-    }
-  } else {
+  try {
+    await loadConfig();
+    restoreActiveTab();
+    hideLoginOverlay();
+  } catch (err) {
+    console.error(err);
     showLoginOverlay('');
   }
 }

@@ -9,7 +9,7 @@ let getConfigSnapshot = null;
 let getNetworkConfig = null;
 
 const PROVIDER_ENDPOINTS = {
-  groq: { url: 'https://api.groq.com/openai/v1/chat/completions', model: 'llama-3.1-70b-versatile' },
+  groq: { url: 'https://api.groq.com/openai/v1/chat/completions', model: 'llama-3.1-8b-instant' },
   openai: { url: 'https://api.openai.com/v1/chat/completions', model: 'gpt-4o-mini' },
   anthropic: { url: 'https://api.anthropic.com/v1/messages', model: 'claude-3-5-sonnet-20240620' }
 };
@@ -141,7 +141,9 @@ async function callProvider(question) {
   const tryFallback = async () => {
     const net = typeof getNetworkConfig === 'function' ? getNetworkConfig() : {};
     if (!net.baseUrl) throw new Error('LLM-Anfrage fehlgeschlagen.');
-    const resp = await fetch(`${net.baseUrl}/api/llm-test`, {
+    const base = (net.baseUrl || '').replace(/\/+$/, '');
+    const url = base.endsWith('/api') ? `${base}/llm-test` : `${base}/api/llm-test`;
+    const resp = await fetch(url, {
       method: 'POST',
       headers: { ...(net.headers || {}), 'Content-Type': 'application/json' },
       body: JSON.stringify({ provider, apiKey: currentKey, question, config: cfg })

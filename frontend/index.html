@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="./css/style.css" />
   <script>
     window.HenriktronConfig = {
-      backendUrl: 'https://henriktronstudio.pages.dev/api',
+      backendUrl: 'https://backend-studio-kv67.onrender.com/api',
       botId: 'default'
     };
   </script>
@@ -95,6 +95,26 @@
       </div>
     </section>
 
+    <section class="section card" id="studio-login">
+      <div>
+        <p class="eyebrow">Zugang</p>
+        <h2>Login ins Henriktron Studio</h2>
+        <p class="muted">Melde dich mit deinen Zugangsdaten an, um deine Bots zu konfigurieren.</p>
+      </div>
+      <form id="loginForm" class="login-form">
+        <div class="field">
+          <label for="loginEmail">E-Mail</label>
+          <input id="loginEmail" type="email" placeholder="du@beispiel.de" required />
+        </div>
+        <div class="field">
+          <label for="loginPassword">Passwort</label>
+          <input id="loginPassword" type="password" placeholder="••••••••" required />
+        </div>
+        <button class="btn primary" type="submit">Im Studio anmelden</button>
+        <p class="muted small">Kein Account? Bitte Admin kontaktieren.</p>
+      </form>
+    </section>
+
     <section class="section">
       <h2>Preise</h2>
       <div class="pricing">
@@ -149,5 +169,22 @@
       <span>Kontakt: hello@henriktron.dev</span>
     </footer>
   </div>
+  <script>
+    // Simpler Login-Redirect: prüft nur auf ausgefüllte Felder und leitet ins Studio.
+    const loginForm = document.getElementById('loginForm');
+    if (loginForm) {
+      loginForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const email = document.getElementById('loginEmail')?.value?.trim();
+        const pw = document.getElementById('loginPassword')?.value?.trim();
+        if (!email || !pw) {
+          alert('Bitte E-Mail und Passwort eingeben.');
+          return;
+        }
+        // Placeholder: hier könnte ein echter Auth-Call stehen.
+        window.location.href = 'https://henriktronstudio.pages.dev/';
+      });
+    }
+  </script>
 </body>
 </html>
