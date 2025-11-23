@@ -9,6 +9,7 @@ import aiRoutes from './routes/aiRoutes.js';
 import adminRoutes from './routes/adminRoutes.js';
 import assistantRoutes from './routes/assistantRoutes.js';
 import llmTestRoutes from './routes/llmTestRoutes.js';
+import authRoutes from './routes/authRoutes.js';
 
 dotenv.config();
 
@@ -19,6 +20,7 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(requireApiKey);
 
+app.use('/api', authRoutes);
 app.use('/api', adminRoutes);
 app.use('/api', assistantRoutes);
 app.use('/api', llmTestRoutes);

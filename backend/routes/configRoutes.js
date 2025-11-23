@@ -4,8 +4,8 @@ import { requireAdmin } from '../middlewares/auth.js';
 
 const router = Router();
 
-// Admin guard temporär deaktiviert für Tests.
-router.use((_req, res, next) => next());
+// Admin guard aktiv: benötigt gültigen User-Token oder ADMIN_TOKEN.
+router.use(requireAdmin);
 
 router.get('/config/:id', getConfig);
 router.post('/config/:id', saveConfig);

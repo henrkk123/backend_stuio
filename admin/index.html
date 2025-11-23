@@ -433,14 +433,16 @@
 
   <div class="login-overlay" id="loginOverlay">
     <div class="login-card">
-      <div class="badge">Adminbereich</div>
-      <h2>Konsole entsperren</h2>
-      <p class="muted">Dieses Config-Studio ist mit einem Admin-Token gesichert.</p>
-      <label for="loginToken">Admin-Token</label>
-      <input id="loginToken" type="password" autocomplete="off" />
+      <div class="badge">Studio Login</div>
+      <h2>Zugriff auf das Config-Studio</h2>
+      <p class="muted" id="loginSubtitle">Melde dich mit E-Mail & Passwort an oder erstelle ein Konto.</p>
+      <label for="loginEmail">E-Mail</label>
+      <input id="loginEmail" type="email" autocomplete="email" />
+      <label for="loginPassword">Passwort</label>
+      <input id="loginPassword" type="password" autocomplete="current-password" />
       <p class="login-error" id="loginError"></p>
       <div class="button-row">
-        <button class="btn secondary" id="loginCancel" type="button">Abbrechen</button>
+        <button class="btn secondary" id="loginToggle" type="button">Konto erstellen</button>
         <button class="btn primary" id="loginSubmit" type="button">Weiter</button>
       </div>
     </div>

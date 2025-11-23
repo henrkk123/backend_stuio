@@ -10,8 +10,18 @@ let toastTimeout;
 
 function authHeaders(extra = {}) {
   const headers = { ...extra };
-  if (adminToken) headers['x-admin-token'] = adminToken;
+  if (adminToken) headers['authorization'] = `Bearer ${adminToken}`;
   return headers;
+}
+
+function readTokenFromQuery() {
+  const params = new URLSearchParams(window.location.search);
+  const token = params.get('token');
+  if (token) {
+    performLogin(token);
+    const url = window.location.origin + window.location.pathname;
+    window.history.replaceState({}, document.title, url);
+  }
 }
 
 function showToast(message, type = 'success') {
@@ -402,9 +412,8 @@ function showLoginOverlay(message) {
   const overlay = document.getElementById('loginOverlay');
   const errorEl = document.getElementById('loginError');
   if (!overlay) return;
-  // Login overlay aktuell deaktiviert – sofort verstecken.
-  overlay.classList.add('hidden');
-  if (errorEl) errorEl.textContent = '';
+  overlay.classList.remove('hidden');
+  if (errorEl) errorEl.textContent = message || '';
 }
 
 function hideLoginOverlay() {
@@ -416,9 +425,38 @@ function hideLoginOverlay() {
 }
 
 async function performLogin(token) {
-  // Temporär kein Login-Call – offene Nutzung zum Testen.
-  adminToken = '';
-  sessionStorage.removeItem('henriktron_admin_token');
+  adminToken = token;
+  sessionStorage.setItem('henriktron_admin_token', token);
+}
+
+async function requestAuth(endpoint, body) {
+  const res = await fetch(`${API_BASE}${endpoint}`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body)
+  });
+  if (!res.ok) {
+    const text = await res.text();
+    try {
+      const parsed = JSON.parse(text);
+      throw new Error(parsed.error || 'Login fehlgeschlagen');
+    } catch {
+      throw new Error(text || 'Login fehlgeschlagen');
+    }
+  }
+  return res.json();
+}
+
+async function loginWithPassword(email, password) {
+  const data = await requestAuth('/api/auth/login', { email, password });
+  if (!data?.token) throw new Error('Kein Token erhalten.');
+  await performLogin(data.token);
+}
+
+async function signupWithPassword(email, password) {
+  const data = await requestAuth('/api/auth/signup', { email, password });
+  if (!data?.token) throw new Error('Kein Token erhalten.');
+  await performLogin(data.token);
 }
 
 async function loadConfig() {
@@ -445,13 +483,20 @@ async function saveConfig() {
       headers: authHeaders({ 'Content-Type': 'application/json' }),
       body: JSON.stringify(cfg)
     });
+    if (res.status === 401) throw new Error('unauthorized');
     if (!res.ok) throw new Error('Speichern fehlgeschlagen');
     const data = await res.json();
     currentConfig = data.config || cfg;
     showToast('Änderungen gespeichert', 'success');
   } catch (err) {
-    console.error(err);
-    showToast('Konnte Konfiguration nicht speichern.', 'error');
+    if (err.message === 'unauthorized') {
+      sessionStorage.removeItem('henriktron_admin_token');
+      adminToken = '';
+      showLoginOverlay('Bitte erneut einloggen.');
+    } else {
+      console.error(err);
+      showToast('Konnte Konfiguration nicht speichern.', 'error');
+    }
   }
 }
 
@@ -460,6 +505,7 @@ async function generateSnippet() {
     const res = await fetch(`${API_BASE}/api/export-snippet/${CONFIG_ID}`, {
       headers: authHeaders()
     });
+    if (res.status === 401) throw new Error('unauthorized');
     if (!res.ok) throw new Error('Export fehlgeschlagen');
     const text = await res.text();
     const el = document.getElementById('snippet');
@@ -468,8 +514,14 @@ async function generateSnippet() {
     }
     showToast('Einbau-Code aktualisiert', 'success');
   } catch (err) {
-    console.error(err);
-    showToast('Snippet konnte nicht generiert werden.', 'error');
+    if (err.message === 'unauthorized') {
+      sessionStorage.removeItem('henriktron_admin_token');
+      adminToken = '';
+      showLoginOverlay('Bitte erneut einloggen.');
+    } else {
+      console.error(err);
+      showToast('Snippet konnte nicht generiert werden.', 'error');
+    }
   }
 }
 
@@ -478,6 +530,7 @@ async function downloadZip() {
     const res = await fetch(`${API_BASE}/api/export-zip/${CONFIG_ID}`, {
       headers: authHeaders()
     });
+    if (res.status === 401) throw new Error('unauthorized');
     if (!res.ok) throw new Error('ZIP-Export fehlgeschlagen');
     const blob = await res.blob();
     const url = URL.createObjectURL(blob);
@@ -490,8 +543,14 @@ async function downloadZip() {
     URL.revokeObjectURL(url);
     showToast('ZIP-Export gestartet', 'success');
   } catch (err) {
-    console.error(err);
-    showToast('ZIP-Export fehlgeschlagen.', 'error');
+    if (err.message === 'unauthorized') {
+      sessionStorage.removeItem('henriktron_admin_token');
+      adminToken = '';
+      showLoginOverlay('Bitte erneut einloggen.');
+    } else {
+      console.error(err);
+      showToast('ZIP-Export fehlgeschlagen.', 'error');
+    }
   }
 }
 
@@ -824,40 +883,63 @@ function bindFormActions() {
 
 function bindLoginUI() {
   const submitBtn = document.getElementById('loginSubmit');
-  const cancelBtn = document.getElementById('loginCancel');
-  const input = document.getElementById('loginToken');
+  const toggleBtn = document.getElementById('loginToggle');
+  const emailInput = document.getElementById('loginEmail');
+  const passwordInput = document.getElementById('loginPassword');
+  const subtitle = document.getElementById('loginSubtitle');
+  let mode = 'login';
 
   if (submitBtn) {
     submitBtn.addEventListener('click', async () => {
+      const email = emailInput?.value?.trim() || '';
+      const pw = passwordInput?.value || '';
+      if (!email || !pw) {
+        showLoginOverlay('Bitte E-Mail und Passwort eingeben.');
+        return;
+      }
       try {
-        await performLogin('');
+        if (mode === 'signup') {
+          await signupWithPassword(email, pw);
+        } else {
+          await loginWithPassword(email, pw);
+        }
         hideLoginOverlay();
         await loadConfig();
         restoreActiveTab();
       } catch (err) {
         console.error(err);
-        showLoginOverlay('Login fehlgeschlagen.');
+        showLoginOverlay(err?.message || 'Login fehlgeschlagen.');
       }
     });
   }
 
-  if (cancelBtn) {
-    cancelBtn.addEventListener('click', () => {
-      if (input) input.value = '';
-    });
-  }
-
-  if (input) {
-    input.addEventListener('keydown', (event) => {
+  if (emailInput && passwordInput) {
+    const handler = (event) => {
       if (event.key === 'Enter') {
         event.preventDefault();
         submitBtn?.click();
+      }
+    };
+    emailInput.addEventListener('keydown', handler);
+    passwordInput.addEventListener('keydown', handler);
+  }
+
+  if (toggleBtn) {
+    toggleBtn.addEventListener('click', () => {
+      mode = mode === 'login' ? 'signup' : 'login';
+      toggleBtn.textContent = mode === 'login' ? 'Konto erstellen' : 'Schon Account? Anmelden';
+      if (subtitle) {
+        subtitle.textContent =
+          mode === 'login'
+            ? 'Melde dich mit E-Mail & Passwort an.'
+            : 'Erstelle ein Konto, um das Studio zu nutzen.';
       }
     });
   }
 }
 
 async function bootstrap() {
+  readTokenFromQuery();
   bindTabs();
   bindTopbarActions();
   bindFormActions();

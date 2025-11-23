@@ -171,18 +171,42 @@
   </div>
   <script>
     // Simpler Login-Redirect: prüft nur auf ausgefüllte Felder und leitet ins Studio.
+    const API_BASE = 'https://backend-studio-kv67.onrender.com/api';
     const loginForm = document.getElementById('loginForm');
     if (loginForm) {
       loginForm.addEventListener('submit', (event) => {
         event.preventDefault();
-        const email = document.getElementById('loginEmail')?.value?.trim();
-        const pw = document.getElementById('loginPassword')?.value?.trim();
-        if (!email || !pw) {
-          alert('Bitte E-Mail und Passwort eingeben.');
-          return;
-        }
-        // Placeholder: hier könnte ein echter Auth-Call stehen.
-        window.location.href = 'https://henriktronstudio.pages.dev/';
+        (async () => {
+          const email = document.getElementById('loginEmail')?.value?.trim();
+          const pw = document.getElementById('loginPassword')?.value?.trim();
+          if (!email || !pw) {
+            alert('Bitte E-Mail und Passwort eingeben.');
+            return;
+          }
+          try {
+            const res = await fetch(`${API_BASE}/auth/login`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ email, password: pw })
+            });
+            if (!res.ok) {
+              const txt = await res.text();
+              try {
+                const parsed = JSON.parse(txt);
+                throw new Error(parsed.error || 'Login fehlgeschlagen.');
+              } catch {
+                throw new Error(txt || 'Login fehlgeschlagen.');
+              }
+            }
+            const data = await res.json();
+            if (!data?.token) throw new Error('Kein Token erhalten.');
+            const target = new URL('https://henriktronstudio.pages.dev/');
+            target.searchParams.set('token', data.token);
+            window.location.href = target.toString();
+          } catch (err) {
+            alert(err?.message || 'Login fehlgeschlagen.');
+          }
+        })();
       });
     }
   </script>
