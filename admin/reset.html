@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <title>Henriktron Admin Reset</title>
+</head>
+<body>
+<h1>Henriktron Admin – Reset</h1>
+<p>Lokale Verbindungseinstellungen werden gelöscht...</p>
+<script>
+  try {
+    localStorage.removeItem('henriktron_api_key');
+    localStorage.removeItem('henriktron_api_url');
+    alert('Henriktron: Verbindung wurde zurückgesetzt. Schließe dieses Fenster und öffne anschließend erneut die index.html.');
+  } catch (e) {
+    alert('Konnte Local Storage nicht leeren. Versuche es im Browser über das Löschen von Website-Daten.');
+  }
+</script>
+</body>
+</html>
+

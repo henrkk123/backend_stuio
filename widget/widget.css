@@ -1,0 +1,65 @@
+:root { --h-brand: #3B82F6; }
+#henriktron-btn{
+  position:fixed;
+  bottom:20px;
+  right:20px;
+  background:var(--h-brand);
+  color:#fff;
+  border:none;
+  border-radius:999px;
+  padding:12px 16px;
+  font-weight:800;
+  box-shadow:0 16px 40px rgba(0,0,0,0.18);
+  cursor:pointer;
+}
+#henriktron-panel{
+  position:fixed;
+  bottom:80px;
+  right:20px;
+  width:320px;
+  height:420px;
+  background:#FFFFFF;
+  border-radius:16px;
+  border:1px solid #E2E8F0;
+  box-shadow:0 30px 60px rgba(15,23,42,0.2);
+  display:none;
+  overflow:hidden;
+  font-family:'Inter',system-ui,-apple-system,sans-serif;
+  opacity:0;
+  transform:translateY(8px) scale(0.98);
+  transition:opacity .18s ease-out,transform .18s ease-out;
+}
+#henriktron-panel header{
+  background:var(--h-brand);
+  color:#0F172A;
+  padding:14px;
+  font-weight:800;
+}
+#henriktron-panel .body{
+  padding:12px;
+  height:300px;
+  overflow:auto;
+  color:#0F172A;
+  font-size:14px;
+}
+#henriktron-panel footer{
+  padding:10px;
+  border-top:1px solid #E2E8F0;
+}
+#henriktron-input{
+  width:100%;
+  border:1px solid #E2E8F0;
+  border-radius:12px;
+  padding:10px;
+}
+#henriktron-panel.henriktron-dark{
+  background:#0F172A;
+  border-color:#1E293B;
+  color:#E5E7EB;
+}
+#henriktron-panel.henriktron-dark .body{
+  color:#E5E7EB;
+}
+#henriktron-panel.henriktron-dark footer{
+  border-color:#1E293B;
+}

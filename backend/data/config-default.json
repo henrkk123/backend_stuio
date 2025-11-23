@@ -1,0 +1,40 @@
+{
+  "id": "default",
+  "identity": {
+    "botName": "Henriktron Assistant",
+    "company": "Henriktron Labs",
+    "language": "de"
+  },
+  "branding": {
+    "primary": "#3B82F6",
+    "secondary": "#0F172A",
+    "surface": "#F8FAFC",
+    "palette": [
+      "#3B82F6",
+      "#0EA5E9",
+      "#0F172A",
+      "#F8FAFC"
+    ],
+    "theme": "modern",
+    "bubbleStyle": "rounded",
+    "logo": "",
+    "staff": "",
+    "location": ""
+  },
+  "tone": {
+    "voice": "neutral",
+    "greeting": "Hallo, ich bin Henrik. Wie kann ich dir helfen?",
+    "restrictions": "Keine Konkurrenz, nur Henrik erwähnen, Microvista nur bei Nachfrage.",
+    "brandVoicePrompt": "Professionell, ruhig, freundlich, aus Mitteldeutschland."
+  },
+  "faq": [
+    {
+      "q": "Wie starte ich?",
+      "a": "Klicke auf den Button und stelle deine Frage."
+    }
+  ],
+  "export": {
+    "backendUrl": "https://api.henriktron.dev",
+    "widgetUrl": "https://cdn.henriktron.dev/widget.js"
+  }
+}

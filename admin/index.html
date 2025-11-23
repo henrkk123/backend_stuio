@@ -1,0 +1,451 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Henriktron Config Studio</title>
+  <link rel="stylesheet" href="./src/styles/admin.css" />
+</head>
+<body data-theme="dark" id="appRoot">
+  <div class="app-shell">
+    <header class="app-bar">
+      <div class="brand">
+        <div class="brand-mark">H</div>
+        <div class="brand-text">
+          <div class="badge">Config Studio</div>
+          <h1>Henriktron Q&A Builder</h1>
+        </div>
+      </div>
+      <div class="project-meta">
+        <span class="label">Projekt</span>
+        <span class="project-name" id="projectName">Henriktron Assistant</span>
+      </div>
+      <div class="app-actions">
+        <button class="btn ghost" id="btn-test-mode">Testmodus</button>
+        <button class="btn ghost" id="btn-open-site">Zur Website</button>
+        <button class="btn ghost" id="btn-docs">Dokumentation</button>
+        <button class="btn primary" id="btn-save">Speichern</button>
+        <button class="btn ghost" id="themeToggle" aria-label="Theme umschalten">☾</button>
+        <button class="btn ghost" id="btn-logout">Logout</button>
+      </div>
+    </header>
+
+    <nav class="section-nav" id="tabs" aria-label="Navigation">
+      <button class="tab active" data-tab="general" type="button">Allgemein</button>
+      <button class="tab" data-tab="widget" type="button">Widget</button>
+      <button class="tab" data-tab="faq" type="button">Inhalte</button>
+      <button class="tab" data-tab="behavior" type="button">Verhalten</button>
+      <button class="tab" data-tab="assistant" type="button">Assistent</button>
+      <button class="tab" data-tab="export" type="button">Export</button>
+    </nav>
+
+    <div class="layout">
+      <main class="content" id="panels">
+        <section class="panel" data-tab="general">
+          <div class="section-header">
+            <div>
+              <p class="eyebrow">Projekt</p>
+              <h2>Allgemeine Einstellungen</h2>
+              <p class="muted">Identität, Sprache und interne Nutzung deines Bots.</p>
+            </div>
+            <div class="pill">Basis</div>
+          </div>
+          <div class="card-grid">
+            <div class="card">
+              <div class="fields two-col">
+                <div>
+                  <label for="botName">Bot-Name</label>
+                  <input id="botName" type="text" placeholder="Firmen-Q&A Bot" />
+                </div>
+                <div>
+                  <label for="company">Firmenname</label>
+                  <input id="company" type="text" placeholder="Dein Unternehmen" />
+                </div>
+                <div>
+                  <label for="industry">Branche</label>
+                  <select id="industry">
+                    <option value="Dienstleistung">Dienstleistung</option>
+                    <option value="SaaS">SaaS / Software</option>
+                    <option value="E-Commerce">E-Commerce</option>
+                    <option value="Beratung">Beratung</option>
+                    <option value="Industrie">Industrie</option>
+                    <option value="Sonstiges">Sonstiges</option>
+                  </select>
+                </div>
+                <div>
+                  <label for="language">Sprache</label>
+                  <select id="language">
+                    <option value="de">Deutsch</option>
+                    <option value="en">Englisch</option>
+                    <option value="multi">Mehrsprachig</option>
+                  </select>
+                </div>
+                <div>
+                  <label for="toneSelect">Tonfall</label>
+                  <select id="toneSelect">
+                    <option value="neutral">neutral</option>
+                    <option value="freundlich">freundlich</option>
+                    <option value="locker">locker</option>
+                    <option value="formell">formell</option>
+                  </select>
+                </div>
+              </div>
+              <label class="checkbox-row">
+                <input id="internalOnly" type="checkbox" />
+                <span>Nur für interne Nutzung</span>
+              </label>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel hidden" data-tab="widget">
+          <div class="section-header">
+            <div>
+              <p class="eyebrow">Design</p>
+              <h2>Widget & Erscheinungsbild</h2>
+              <p class="muted">Farben, Form, Position und Verhalten deines Chat-Widgets.</p>
+            </div>
+            <div class="pill">Design</div>
+          </div>
+
+          <div class="card-grid">
+            <div class="card">
+              <div class="card-title">
+                <div>
+                  <h3>Farbwelt & Branding</h3>
+                  <p class="muted">Primärfarbe, Hintergrund, Text, Button.</p>
+                </div>
+                <button class="btn ghost" id="btn-ai-palette" type="button">KI-Farbvorschlag</button>
+              </div>
+              <div class="fields two-col">
+                <div>
+                  <label for="primaryColor">Primärfarbe</label>
+                  <input id="primaryColor" type="color" />
+                </div>
+                <div>
+                  <label for="bgColor">Hintergrund</label>
+                  <input id="bgColor" type="color" />
+                </div>
+                <div>
+                  <label for="textColor">Textfarbe</label>
+                  <input id="textColor" type="color" />
+                </div>
+                <div>
+                  <label for="buttonColor">Buttonfarbe</label>
+                  <input id="buttonColor" type="color" />
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-title">
+                <div>
+                  <h3>Form & Oberfläche</h3>
+                  <p class="muted">Form, Schatten, Größe und Modus.</p>
+                </div>
+              </div>
+              <div class="fields two-col">
+                <div>
+                  <label for="radius">Eckenradius</label>
+                  <input id="radius" type="range" min="0" max="24" step="1" />
+                </div>
+                <div>
+                  <label for="shapeSelect">Form</label>
+                  <select id="shapeSelect">
+                    <option value="soft">Leicht rund</option>
+                    <option value="pill">Pill / sehr rund</option>
+                    <option value="square">Eckig</option>
+                  </select>
+                </div>
+                <div>
+                  <label for="radius">Eckenradius</label>
+                  <input id="radius" type="range" min="0" max="24" step="1" />
+                </div>
+                <div>
+                  <label for="mode">Modus</label>
+                  <select id="mode">
+                    <option value="dark">Dark</option>
+                    <option value="light">Light</option>
+                  </select>
+                </div>
+                <div>
+                  <label for="sizeSelect">Widget-Größe</label>
+                  <select id="sizeSelect">
+                    <option value="m">Mittel</option>
+                    <option value="s">Klein</option>
+                    <option value="l">Groß</option>
+                  </select>
+                </div>
+                <div>
+                  <label for="borderWeight">Border-Stärke</label>
+                  <input id="borderWeight" type="range" min="0" max="3" step="1" />
+                </div>
+                <div>
+                  <label class="checkbox-row">
+                    <input id="shadow" type="checkbox" />
+                    <span>Mit Schatten</span>
+                  </label>
+                </div>
+              </div>
+              <div class="fields two-col">
+                <div>
+                  <label for="buttonText">Button-Text</label>
+                  <input id="buttonText" type="text" placeholder="Frage stellen" />
+                </div>
+                <div>
+                  <label for="position">Position</label>
+                  <select id="position">
+                    <option value="bottom-right">unten rechts</option>
+                    <option value="bottom-left">unten links</option>
+                  </select>
+                </div>
+                <div>
+                  <label for="chatTitle">Chat-Titel</label>
+                  <input id="chatTitle" type="text" placeholder="Frag unseren KI-Assistenten" />
+                </div>
+                <div>
+                  <label for="introMessage">Einstiegsnachricht</label>
+                  <textarea id="introMessage" rows="2" placeholder="Beschreibe kurz, wobei der Bot hilft."></textarea>
+                </div>
+                <div>
+                  <label for="maxMessageLength">Maximale Nachrichtenlänge</label>
+                  <input id="maxMessageLength" type="number" min="50" max="2000" step="10" />
+                </div>
+                <div>
+                  <label for="autoOpenDelay">Popup-Verzögerung (Sek.)</label>
+                  <input id="autoOpenDelay" type="number" min="0" max="120" step="1" />
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-title">
+                <div>
+                  <h3>Logo & Medien</h3>
+                  <p class="muted">Logo hochladen, Live-Preview sichtbar.</p>
+                </div>
+              </div>
+              <div class="fields two-col">
+                <div>
+                  <label for="logoFile">Logo-Upload</label>
+                  <input id="logoFile" type="file" accept="image/*" />
+                  <small class="muted">Für die Vorschau – wird in der Konfiguration gespeichert.</small>
+                </div>
+                <div>
+                  <label>Logo-Preview</label>
+                  <div class="logo-preview">
+                    <img id="logoPreview" alt="Logo Preview" />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-title">
+                <div>
+                  <h3>LLM-Key (Server)</h3>
+                  <p class="muted">Optionaler projektspezifischer LLM-API-Key, wird nur serverseitig genutzt.</p>
+                </div>
+              </div>
+              <div class="fields">
+                <div>
+                  <label for="llmApiKey">LLM-API-Key (serverseitig)</label>
+                  <input id="llmApiKey" type="password" autocomplete="off" placeholder="Neuen Key eintragen" />
+                  <small class="muted" id="llmApiKeyHint">Optional: Eigener LLM-API-Key, wird nur serverseitig genutzt.</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel hidden" data-tab="faq">
+          <div class="section-header">
+            <div>
+              <p class="eyebrow">Inhalte</p>
+              <h2>FAQ & Wissen</h2>
+              <p class="muted">Fragen und Antworten pflegen, sortieren und ergänzen.</p>
+            </div>
+            <div class="pill">Content</div>
+          </div>
+          <div class="card">
+            <div class="list" id="faqList"></div>
+            <div class="button-row">
+              <button class="btn secondary" id="btn-add-faq" type="button">+ FAQ hinzufügen</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel hidden" data-tab="behavior">
+          <div class="section-header">
+            <div>
+              <p class="eyebrow">Verhalten</p>
+              <h2>Ton & Regeln</h2>
+              <p class="muted">Begrüßung, Brand-Voice, Restriktionen und Leitplanken.</p>
+            </div>
+            <div class="pill">Tone</div>
+          </div>
+          <div class="card">
+            <div class="fields two-col">
+              <div>
+                <label for="greeting">Begrüßung</label>
+                <input id="greeting" type="text" placeholder="Hallo, ich bin dein Q&A-Bot ..." />
+                <button class="btn ghost inline" id="btn-ai-greeting" type="button">KI-Begrüßung vorschlagen</button>
+              </div>
+              <div>
+                <label for="brandVoice">Brand-Voice / System-Prompt</label>
+                <textarea id="brandVoice" rows="3" placeholder="Beschreibe hier, wie der Bot klingen soll."></textarea>
+                <button class="btn ghost inline" id="btn-ai-brandvoice" type="button">KI-Brand-Voice vorschlagen</button>
+              </div>
+            </div>
+            <div class="fields">
+              <div>
+                <label for="restrictions">Weitere Einschränkungen</label>
+                <textarea id="restrictions" rows="2" placeholder="z.B. keine Konkurrenz nennen, bestimmte Themen vermeiden ..."></textarea>
+                <button class="btn ghost inline" id="btn-ai-restrictions" type="button">Restriktionstext optimieren</button>
+              </div>
+            </div>
+            <div class="checkbox-group">
+              <label class="checkbox-row">
+                <input id="noCompetitors" type="checkbox" />
+                <span>Bot darf keine Konkurrenz erwähnen</span>
+              </label>
+              <label class="checkbox-row">
+                <input id="onlyKnowledgeBase" type="checkbox" />
+                <span>Bot nutzt nur Inhalte aus dem bereitgestellten Wissen</span>
+              </label>
+              <label class="checkbox-row">
+                <input id="henrikFromMitteldeutschland" type="checkbox" />
+                <span>Bot antwortet als „Henrik“ aus Mitteldeutschland (ohne Nachnamen, ohne genaue Stadt)</span>
+              </label>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel hidden" data-tab="assistant">
+          <div class="section-header">
+            <div>
+              <p class="eyebrow">Beta</p>
+              <h2>Assistent</h2>
+              <p class="muted">KI-Assistent für Texte, Prompts und FAQ-Inhalte.</p>
+            </div>
+            <div class="pill">Helper</div>
+          </div>
+          <div class="card assistant-card">
+            <div class="assistant-chat">
+              <div id="assistantMessages" class="assistant-messages"></div>
+              <div class="assistant-input-row">
+                <textarea id="assistantInput" rows="2" placeholder="Frag den Assistenten nach Hilfe bei Prompts, FAQ oder Tonfall ..."></textarea>
+                <button class="btn primary" id="assistantSend" type="button">Senden</button>
+              </div>
+              <div class="fields">
+                <div>
+                  <label for="assistantTarget">Antwort anwenden auf</label>
+                  <select id="assistantTarget">
+                    <option value="none">Nur anzeigen</option>
+                    <option value="greeting">Begrüßung</option>
+                    <option value="brandVoice">Brand-Voice / System-Prompt</option>
+                    <option value="restrictions">Restriktionen</option>
+                    <option value="faqAnswer">Antwort des letzten FAQ-Eintrags</option>
+                  </select>
+                </div>
+              </div>
+              <p class="muted assistant-hint">
+                Der Assistent nutzt denselben LLM wie dein Bot und kennt deine aktuelle Konfiguration.
+                Er spricht nicht über Konkurrenz-Produkte und bleibt beim Thema Q&A-Konfiguration.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel hidden" data-tab="export">
+          <div class="section-header">
+            <div>
+              <p class="eyebrow">Bereitstellen</p>
+              <h2>Export & Snippets</h2>
+              <p class="muted">Self-Host Snippet und Test-Snippet für deine Website.</p>
+            </div>
+            <div class="pill">Export</div>
+          </div>
+          <div class="card">
+            <div class="button-row">
+              <button class="btn secondary" id="btn-generate-snippet" type="button">Einbau-Code generieren</button>
+              <button class="btn secondary" id="btn-download-zip" type="button">ZIP-Export</button>
+              <button class="btn ghost" id="btn-copy-snippet" type="button">Code kopieren</button>
+            </div>
+            <textarea id="snippet" class="snippet" readonly></textarea>
+            <div class="muted export-help">
+              <ol>
+                <li>Code in deine Website kopieren.</li>
+                <li>Vor dem schließenden <code>&lt;/body&gt;</code>-Tag einfügen.</li>
+                <li>Seite neu laden und testen.</li>
+              </ol>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <aside class="sidebar">
+        <div class="card preview-card">
+          <div class="section-title">
+            <h3>Live Preview</h3>
+            <div class="preview-mode">
+              <span class="badge">Widget</span>
+            </div>
+          </div>
+          <div class="preview-box" id="preview-box"></div>
+        </div>
+
+        <div class="card test-mode-card" id="testModeCard">
+          <div class="section-title">
+            <h3>Sofort-Testmodus</h3>
+            <span class="badge ghost">Beta</span>
+          </div>
+          <p class="muted">Teste deinen Bot direkt mit deinem LLM-API-Key – ohne Speicherung.</p>
+          <label for="testApiKey">LLM-API-Key zum Testen</label>
+          <input id="testApiKey" type="password" autocomplete="off" placeholder="z.B. sk-... oder gsk-..." />
+          <small class="muted">Wird nicht gespeichert. Nur zum Testen.</small>
+          <div class="fields two-col compact">
+            <div>
+              <label for="testProvider">Provider</label>
+              <select id="testProvider">
+                <option value="groq">Groq</option>
+                <option value="openai">OpenAI</option>
+                <option value="anthropic">Anthropic</option>
+              </select>
+            </div>
+            <div class="align-end">
+              <button class="btn secondary" id="testStart" type="button">Test starten</button>
+            </div>
+          </div>
+          <div class="test-chat hidden" id="testChat">
+            <div id="testMessages" class="assistant-messages"></div>
+            <div class="assistant-input-row">
+              <textarea id="testInput" rows="2" placeholder="Frage an den Bot im Testmodus …"></textarea>
+              <button class="btn primary" id="testSend" type="button">Senden</button>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <div class="login-overlay" id="loginOverlay">
+    <div class="login-card">
+      <div class="badge">Adminbereich</div>
+      <h2>Konsole entsperren</h2>
+      <p class="muted">Dieses Config-Studio ist mit einem Admin-Token gesichert.</p>
+      <label for="loginToken">Admin-Token</label>
+      <input id="loginToken" type="password" autocomplete="off" />
+      <p class="login-error" id="loginError"></p>
+      <div class="button-row">
+        <button class="btn secondary" id="loginCancel" type="button">Abbrechen</button>
+        <button class="btn primary" id="loginSubmit" type="button">Weiter</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="./admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Doku / Erste Schritte – Henriktron</title>
+  <link rel="stylesheet" href="./css/style.css" />
+</head>
+<body>
+  <div class="container">
+    <nav class="navbar">
+      <div class="brand">
+        <div class="brand-mark">H</div>
+        <strong>Henriktron Labs</strong>
+      </div>
+      <div class="nav-links">
+        <a href="./index.html">Startseite</a>
+        <a href="./index.html#features">Q&A-System</a>
+        <a href="./pricing.html">Preise</a>
+        <a href="./about.html">Über Henrik</a>
+        <a href="./docs.html">Doku / Erste Schritte</a>
+        <a href="./contact.html">Kontakt</a>
+      </div>
+      <div class="nav-right">
+        <a class="btn secondary" href="https://henriktronstudio.pages.dev/" target="_blank" rel="noopener">Demo testen</a>
+      </div>
+    </nav>
+    <div class="mobile-nav">
+      <a href="./index.html">Startseite</a>
+      <a href="./index.html#features">Q&A-System</a>
+      <a href="./pricing.html">Preise</a>
+      <a href="./about.html">Über Henrik</a>
+      <a href="./docs.html">Doku / Erste Schritte</a>
+      <a href="./contact.html">Kontakt</a>
+      <a class="btn secondary" href="https://henriktronstudio.pages.dev/" target="_blank" rel="noopener">Demo testen</a>
+    </div>
+
+    <section class="hero-center">
+      <div class="badge">Doku</div>
+      <h1>Erste Schritte</h1>
+      <p>Kurzer Überblick, wie du Henriktron lokal startest und dein Q&A-Widget einbindest.</p>
+    </section>
+
+    <section class="section">
+      <h2>Setup</h2>
+      <div class="step-grid">
+        <div class="card step"><h3>1. Projekt holen</h3><p class="muted">Repo herunterladen oder clonen.</p></div>
+        <div class="card step"><h3>2. Backend starten</h3><p class="muted">`cd backend`, `npm install`, `npm run dev`. LLM-Key in `.env` eintragen.</p></div>
+        <div class="card step"><h3>3. Admin öffnen</h3><p class="muted">Öffne das Studio unter <a href="https://henriktronstudio.pages.dev/" target="_blank" rel="noopener">henriktronstudio.pages.dev</a>.</p></div>
+        <div class="card step"><h3>4. Bot konfigurieren</h3><p class="muted">Identität, Branding, FAQ, Verhalten im Studio pflegen, speichern.</p></div>
+        <div class="card step"><h3>5. Snippet kopieren</h3><p class="muted">Im Tab Export das Produktions-Snippet kopieren.</p></div>
+        <div class="card step"><h3>6. Website einbinden</h3><p class="muted">Snippet vor `</body>` in deine Seite einfügen. Fertig.</p></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Was du brauchst</h2>
+      <div class="grid">
+        <div class="card"><h3>Eigener Server / Hoster</h3><p class="muted">Du hostest Backend + Widget selbst.</p></div>
+        <div class="card"><h3>LLM-Account</h3><p class="muted">Eigener API-Key (z.B. Groq, OpenAI, Anthropic) in `.env` eintragen.</p></div>
+        <div class="card"><h3>Optional</h3><p class="muted">Assistent im Studio nutzen, um Texte/Prompts vorzubereiten.</p></div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <span>© Henriktron Labs – Self-Host Q&A Kit</span>
+      <span>Kontakt: hello@henriktron.dev</span>
+    </footer>
+  </div>
+</body>
+</html>

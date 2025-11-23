@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Henriktron – Q&A System Builder</title>
+  <link rel="stylesheet" href="./css/style.css" />
+  <script>
+    window.HenriktronConfig = {
+      backendUrl: 'https://henriktronstudio.pages.dev/api',
+      botId: 'default'
+    };
+  </script>
+  <script defer src="../widget/widget.js"></script>
+</head>
+<body>
+  <div class="container">
+    <nav class="navbar">
+      <div class="brand">
+        <div class="brand-mark">H</div>
+        <strong>Henriktron Labs</strong>
+      </div>
+      <div class="nav-links">
+        <a href="./index.html">Startseite</a>
+        <a href="./index.html#features">Q&A-System</a>
+        <a href="./pricing.html">Preise</a>
+        <a href="./about.html">Über Henrik</a>
+        <a href="./docs.html">Doku / Erste Schritte</a>
+        <a href="./contact.html">Kontakt</a>
+      </div>
+      <div class="nav-right">
+        <a class="btn secondary" href="https://henriktronstudio.pages.dev/" target="_blank" rel="noopener">Demo testen</a>
+      </div>
+    </nav>
+    <div class="mobile-nav">
+      <a href="./index.html">Startseite</a>
+      <a href="./index.html#features">Q&A-System</a>
+      <a href="./pricing.html">Preise</a>
+      <a href="./about.html">Über Henrik</a>
+      <a href="./docs.html">Doku / Erste Schritte</a>
+      <a href="./contact.html">Kontakt</a>
+      <a class="btn secondary" href="https://henriktronstudio.pages.dev/" target="_blank" rel="noopener">Demo testen</a>
+    </div>
+
+    <section class="hero">
+      <div>
+        <div class="badge">Self-Host Q&A Kit</div>
+        <h1>Self-Host Q&A-Bot ohne Abo.</h1>
+        <p>Konfiguriere deinen Bot im Henriktron Studio, füge das Snippet ein und betreibe Backend + Widget selbst – mit deinem eigenen LLM-API-Key.</p>
+        <div class="cta-bar">
+          <a class="btn primary" href="https://henriktronstudio.pages.dev/" target="_blank" rel="noopener">Demo testen</a>
+          <a class="btn secondary" href="./pricing.html">Self-Host Kit anfragen</a>
+        </div>
+      </div>
+      <div class="hero-mock">
+        <div class="bar" style="width: 70%"></div>
+        <div class="bar" style="width: 82%"></div>
+        <div class="card">
+          <div class="badge">Live Preview</div>
+          <p class="muted">Widget, Branding, FAQ, Export – alles im Studio.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="steps">
+      <h2>Wie funktioniert Henriktron?</h2>
+      <p class="muted">Drei Schritte bis zum eigenen Q&A-Bot.</p>
+      <div class="step-grid">
+        <div class="card step"><h3>1. Bot konfigurieren</h3><p class="muted">Fragen, Antworten, Tonfall und Branding im Studio festlegen.</p></div>
+        <div class="card step"><h3>2. Snippet einbauen</h3><p class="muted">Widget-Snippet generieren und auf deiner Website einfügen.</p></div>
+        <div class="card step"><h3>3. Self-Host</h3><p class="muted">Backend starten, LLM-Key in `.env` eintragen – fertig.</p></div>
+      </div>
+    </section>
+
+    <section class="section" id="features">
+      <h2>Funktionen</h2>
+      <div class="grid features">
+        <div class="card"><h3>Self-Host statt Abo</h3><p class="muted">Einmal kaufen, selbst betreiben, volle Kontrolle.</p></div>
+        <div class="card"><h3>Eigener LLM-Key</h3><p class="muted">OpenAI, Groq, Anthropic – Kosten bleiben bei dir.</p></div>
+        <div class="card"><h3>Konfiguration ohne Code</h3><p class="muted">Studio für Inhalte, Tonfall, Branding und Export.</p></div>
+        <div class="card"><h3>Widget-Design</h3><p class="muted">Farben, Form, Position und Verhalten anpassbar.</p></div>
+        <div class="card"><h3>Eingebauter Assistent</h3><p class="muted">Hilft bei Prompts, FAQ-Texten und Formulierungen.</p></div>
+        <div class="card"><h3>Datenschutz & Kontrolle</h3><p class="muted">Keine Kundendaten bei uns, LLM-Key bleibt bei dir.</p></div>
+        <div class="card"><h3>Mehrere Projekte</h3><p class="muted">Für mehrere Bots/Projekte nutzbar.</p></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Use-Cases</h2>
+      <div class="grid">
+        <div class="card"><h3>Mittelständische Unternehmen</h3><p class="muted">Support- und Produktfragen schnell beantworten, ohne Abo.</p></div>
+        <div class="card"><h3>Agenturen</h3><p class="muted">Mehrere Kundenbots aus einem Studio verwalten und ausliefern.</p></div>
+        <div class="card"><h3>Industrie / Technik</h3><p class="muted">Prozesswissen und Handbücher als Q&A zugänglich machen.</p></div>
+        <div class="card"><h3>Lokale Dienstleister / Vereine</h3><p class="muted">Öffnungszeiten, Leistungen und FAQ klar kommunizieren.</p></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Preise</h2>
+      <div class="pricing">
+        <div class="card">
+          <div class="badge">Starter Kit</div>
+          <div class="price">399 €</div>
+          <p class="price-note">Einmaliger Kauf</p>
+          <ul class="list-check">
+            <li>Admin-Studio & Backend</li>
+            <li>Widget-Snippet & ZIP</li>
+            <li>FAQ / Tone / Branding Basis</li>
+          </ul>
+          <div class="cta-bar"><a class="btn primary" href="./pricing.html">Starter wählen</a></div>
+        </div>
+        <div class="card">
+          <div class="badge">Pro / Custom</div>
+          <div class="price">799 €+</div>
+          <p class="price-note">Einmalig, anpassbar</p>
+          <ul class="list-check">
+            <li>Unbegrenzte Bots</li>
+            <li>Theme Packs & Templates</li>
+            <li>Projekt-Export, Support optional</li>
+          </ul>
+          <div class="cta-bar"><a class="btn secondary" href="./pricing.html">Custom anfragen</a></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>FAQ</h2>
+      <div class="grid">
+        <div class="card"><h3>Brauche ich einen eigenen Server?</h3><p class="muted">Ja. Du hostest Backend und Widget selbst, behältst die Kontrolle.</p></div>
+        <div class="card"><h3>Welche LLMs werden unterstützt?</h3><p class="muted">Groq, OpenAI, Anthropic; du trägst deinen Key in `.env` ein.</p></div>
+        <div class="card"><h3>Speichert Henriktron meinen API-Key?</h3><p class="muted">Nein. Der Key bleibt bei dir, wir speichern ihn nicht.</p></div>
+        <div class="card"><h3>Kann ich mehrere Bots erstellen?</h3><p class="muted">Ja, das Studio kann für mehrere Projekte genutzt werden.</p></div>
+        <div class="card"><h3>Für wen geeignet?</h3><p class="muted">Unternehmen, Agenturen, Technik-Teams, lokale Anbieter – ohne Abo.</p></div>
+        <div class="card"><h3>DSGVO-freundlich?</h3><p class="muted">Ja. Daten bleiben bei dir, kein externes Tracking.</p></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Self-Host Kit anfragen</h2>
+      <p class="muted">Backend, Admin-Studio, Widget, Anleitung – einmal kaufen, selbst hosten, eigenen LLM-Key nutzen.</p>
+      <div class="cta-bar">
+        <a class="btn primary" href="./contact.html">Kontakt aufnehmen</a>
+        <a class="btn ghost" href="./docs.html">Erste Schritte lesen</a>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <span>© Henriktron Labs – Self-Host Q&A Kit</span>
+      <span>Kontakt: hello@henriktron.dev</span>
+    </footer>
+  </div>
+</body>
+</html>
