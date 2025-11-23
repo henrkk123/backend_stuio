@@ -1,7 +1,7 @@
 import { initTestMode } from './src/test-mode.js';
 
 const API_BASE =
-  localStorage.getItem('henriktron_admin_api_base') || 'https://backend-studio-kv67.onrender.com/api';
+  localStorage.getItem('henriktron_admin_api_base') || 'https://backend-studio-kv67.onrender.com';
 const CONFIG_ID = 'default';
 
 let adminToken = sessionStorage.getItem('henriktron_admin_token') || '';
