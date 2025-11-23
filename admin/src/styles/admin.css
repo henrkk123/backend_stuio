@@ -344,8 +344,32 @@ textarea { min-height: 100px; resize: vertical; }
   border: 1px solid var(--border);
   box-shadow: var(--shadow-soft);
 }
+.login-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
 .login-card h2 { margin: 10px 0 8px; }
 .login-error { min-height: 18px; font-size: 13px; color: var(--primary); margin: 8px 0 4px; }
+
+.login-close {
+  border: none;
+  background: #f3f4f6;
+  color: var(--muted);
+  border-radius: 999px;
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  font-size: 18px;
+  line-height: 1;
+}
+.login-close:hover {
+  background: #fee2e2;
+  color: var(--primary-strong);
+}
 
 .toast {
   position: fixed;

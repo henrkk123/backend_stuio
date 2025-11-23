@@ -884,6 +884,7 @@ function bindFormActions() {
 function bindLoginUI() {
   const submitBtn = document.getElementById('loginSubmit');
   const toggleBtn = document.getElementById('loginToggle');
+  const closeBtn = document.getElementById('loginClose');
   const emailInput = document.getElementById('loginEmail');
   const passwordInput = document.getElementById('loginPassword');
   const subtitle = document.getElementById('loginSubtitle');
@@ -934,6 +935,12 @@ function bindLoginUI() {
             ? 'Melde dich mit E-Mail & Passwort an.'
             : 'Erstelle ein Konto, um das Studio zu nutzen.';
       }
+    });
+  }
+
+  if (closeBtn) {
+    closeBtn.addEventListener('click', () => {
+      hideLoginOverlay();
     });
   }
 }

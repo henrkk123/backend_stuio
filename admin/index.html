@@ -433,8 +433,13 @@
 
   <div class="login-overlay" id="loginOverlay">
     <div class="login-card">
-      <div class="badge">Studio Login</div>
-      <h2>Zugriff auf das Config-Studio</h2>
+      <div class="login-card-header">
+        <div>
+          <div class="badge">Studio Login</div>
+          <h2>Zugriff auf das Config-Studio</h2>
+        </div>
+        <button class="login-close" id="loginClose" type="button" aria-label="Overlay schließen">×</button>
+      </div>
       <p class="muted" id="loginSubtitle">Melde dich mit E-Mail & Passwort an oder erstelle ein Konto.</p>
       <label for="loginEmail">E-Mail</label>
       <input id="loginEmail" type="email" autocomplete="email" />
