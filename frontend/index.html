@@ -184,11 +184,19 @@
             return;
           }
           try {
-            const res = await fetch(`${API_BASE}/auth/login`, {
+            // Erst Login versuchen, bei 401 ein Signup ausführen.
+            let res = await fetch(`${API_BASE}/auth/login`, {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({ email, password: pw })
             });
+            if (res.status === 401) {
+              res = await fetch(`${API_BASE}/auth/signup`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, password: pw })
+              });
+            }
             if (!res.ok) {
               const txt = await res.text();
               try {
