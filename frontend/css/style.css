@@ -12,6 +12,7 @@
   --primary-strong: #c62832;
   --primary-glow: 0 18px 42px rgba(230, 57, 70, 0.28);
   --accent: #f1d7ff;
+  --accent-soft: #fef1f3;
   --shadow: 0 18px 40px rgba(15, 23, 42, 0.12);
   --radius: 16px;
 }
@@ -105,7 +106,7 @@ a { color: inherit; text-decoration: none; }
 .card h3 { margin: 0 0 6px; }
 .card p { margin: 0; color: var(--muted); }
 
-.section { padding: 56px 0; }
+.section { padding: 40px 0; }
 .section h2 { margin: 0 0 12px; font-size: 30px; }
 .section p { color: var(--muted); margin: 0 0 12px; }
 
@@ -113,6 +114,10 @@ a { color: inherit; text-decoration: none; }
 .grid.features .card { min-height: 140px; }
 .step-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
 .step { border-left: 3px solid var(--brand); padding-left: 14px; }
+.step-grid,
+.grid,
+.pricing-grid,
+.mockup-grid { margin-top: 12px; }
 
 .login-card {
   max-width: 820px;
@@ -189,6 +194,189 @@ a { color: inherit; text-decoration: none; }
 .hero-center { text-align: center; padding: 70px 0 40px; }
 .hero-center h1 { font-size: 36px; margin-bottom: 12px; }
 .hero-center p { color: var(--muted); max-width: 700px; margin: 0 auto; }
+
+.mockups { padding: 60px 0; }
+.mockup-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 18px;
+}
+.mockup-card {
+  background: var(--card, #fff);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 16px;
+  box-shadow: 0 18px 40px rgba(15,23,42,0.08);
+  display: grid;
+  gap: 10px;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+}
+.mockup-card:hover {
+  transform: translateY(-6px) scale(1.02) rotateX(1deg);
+  box-shadow: 0 28px 70px rgba(15,23,42,0.12);
+  border-color: rgba(230,57,70,0.22);
+}
+.mockup-title { font-weight: 700; color: var(--text); font-size: 16px; }
+.mockup-desc { color: var(--muted); margin: 0; font-size: 14px; }
+.mockup-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(230, 57, 70, 0.12);
+  color: var(--primary-strong);
+  font-weight: 600;
+  font-size: 12px;
+}
+.macbook-frame {
+  position: relative;
+  border-radius: 16px;
+  background: linear-gradient(135deg, rgba(230,57,70,0.06), rgba(15,23,42,0.04));
+  border: 1px solid var(--border);
+  box-shadow: 0 24px 60px rgba(15,23,42,0.14);
+  padding: 18px 12px 12px;
+  overflow: hidden;
+  min-height: 240px;
+}
+.macbook-notch {
+  position: absolute;
+  top: 8px; left: 50%;
+  transform: translateX(-50%);
+  width: 60px; height: 6px;
+  border-radius: 999px;
+  background: #d1d5db;
+}
+.macbook-frame::before {
+  content: "";
+  position: absolute;
+  top: 8px; left: 50%;
+  transform: translateX(-50%);
+  width: 60px; height: 6px;
+  border-radius: 999px;
+  background: #d1d5db;
+}
+.macbook-frame img {
+  display: block;
+  width: 100%;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: #fff;
+  object-fit: cover;
+}
+.macbook-frame.is-placeholder {
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg, rgba(230,57,70,0.06), rgba(15,23,42,0.06));
+  color: var(--muted);
+  text-align: center;
+  padding: 32px;
+}
+.macbook-frame.is-placeholder::before { display: none; }
+.macbook-frame.is-placeholder::after {
+  content: "Screenshot fehlt. Lege mockup-Bilder in /assets/mockup-*.png";
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.hero-alt { background: var(--bg-soft); }
+.hero-alt-inner { padding: 56px 0; }
+.hero-alt h1 { font-size: 36px; margin: 12px 0; color: var(--text); }
+.hero-alt p { font-size: 17px; color: var(--muted); max-width: 720px; }
+.trust-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+
+.steps h2,
+.usecases h2,
+.pricing h2,
+.mockups h2,
+.login-hint h2,
+.impressum h2 { margin-bottom: 12px; }
+
+.mini-dialog { display: grid; gap: 8px; margin-top: 8px; }
+.bubble {
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: #fff;
+  box-shadow: 0 8px 18px rgba(15,23,42,0.06);
+  font-size: 14px;
+}
+.bubble.user { background: var(--accent-soft); color: var(--primary-strong); border-color: rgba(230,57,70,0.18); }
+.bubble.bot { color: var(--text); }
+
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+  align-items: start;
+  margin-top: 12px;
+}
+.price-card .price { font-size: 32px; font-weight: 800; color: var(--text); }
+
+.login-hint { text-align: left; }
+.login-hint p { margin: 0; }
+.impressum { padding-bottom: 80px; }
+.impressum-details summary {
+  cursor: pointer;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+.impressum-body { margin-top: 8px; color: var(--text); }
+
+.footer {
+  margin-top: 24px;
+  padding: 20px 0;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-start; justify-content: space-between;
+}
+.footer a { color: var(--text); text-decoration: none; display: block; margin-bottom: 6px; }
+.footer a:hover { color: var(--primary); }
+.footer-col { min-width: 180px; }
+
+.impressum p { margin: 8px 0; color: var(--text); }
+
+.lightbox {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 80;
+}
+.lightbox.hidden { display: none; }
+.lightbox-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.35);
+  backdrop-filter: blur(6px);
+}
+.lightbox-content {
+  position: relative;
+  max-width: 1100px;
+  width: 100%;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 30px 70px rgba(15,23,42,0.25);
+  overflow: hidden;
+  animation: fade 0.18s ease;
+}
+.lightbox-content img { width: 100%; height: 100%; object-fit: contain; background: #fff; }
+.lightbox-close {
+  position: absolute;
+  top: 12px; right: 12px;
+  width: 36px; height: 36px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: #fff;
+  color: var(--text);
+  cursor: pointer;
+  box-shadow: 0 10px 24px rgba(15,23,42,0.08);
+}
+.lightbox-close:hover { background: var(--accent-soft); }
+
+@keyframes fade { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
 
 @media (max-width: 768px) {
   .navbar { flex-direction: column; align-items: flex-start; }
